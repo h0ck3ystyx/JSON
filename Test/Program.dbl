@@ -1,0 +1,42 @@
+import Json
+
+.define ASSERT_TYPE(val, type, message) if(val.JsonType != JSON_TYPE.type) throw new Exception(message)
+.define ASSERT_EQUALS(val, target, message) if(val != target) throw new Exception(message)
+
+;;; <summary>
+;;; The main entry point for the application.
+;;; </summary>
+main
+	record
+		json, @Json
+		val, @JsonValue
+		objVal, @JsonObject
+		propVal, @JsonValue
+		buf, a1024
+		bufString, @String
+proc
+	open(2, O, "c:\wrk\log.txt")
+	bufString = ""
+	json = new Json()
+	val = json.ParseJson('{"Hello":"Thing"}')
+	ASSERT_TYPE(val, OBJ, "parsed response was the wrong type")
+	objVal = (JsonObject)val
+	propVal = objVal.GetProperty("Hello")
+	ASSERT_TYPE(propVal, TEXT, "property value of Hello was wrong type")
+	ASSERT_EQUALS(((JsonText)propVal).Value, "Thing", "property value was wrong")
+
+
+	open(1, I, "c:\wrk\test1.json")
+	do forever
+	begin
+		reads(1, buf, EOFLABEL)
+		bufString += %atrim(buf)
+		nextloop
+		EOFLABEL,
+		exitloop
+	end
+	close(1)
+	writes(2, %string(%cputime()))
+	val = json.ParseJson(bufString)
+	writes(2, %string(%cputime()))
+endmain
