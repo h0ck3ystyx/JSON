@@ -7,7 +7,7 @@ import System.Collections
 .endc
 
 .define IsNumber(ch) ch >= '0' && ch <= '9'
-.define Substring(startPos, endPos, inputString) inputString(startPos:(endpos - startPos))
+
 namespace Json
 	enum JSON_TYPE
 		OBJ, 
@@ -53,6 +53,18 @@ namespace Json
 			mreturn 0
 		endmethod
         
+		private static method Substring, @string
+			req in startPos, int
+			req in endPos, int
+			req in inputValue, @string
+		proc
+			if((endpos - startPos) > 0) then
+				mreturn inputValue(startPos:(endpos - startPos))
+			else
+				mreturn ""
+		endmethod
+
+
 		private method IsEndOfPrimitive, boolean
 			req in currentPos, int
 			endparams
@@ -135,7 +147,7 @@ namespace Json
 				if(STRING_AT(inputValue, headPos) == '"') then
 				begin
 					currentPos = headPos
-					mreturn inputValue(bufPos:(headPos - bufPos))
+					mreturn Substring(bufPos, headPos, inputValue)
 				end
 				else if(STRING_AT(inputValue, headPos) == '\')
 				begin

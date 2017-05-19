@@ -12,7 +12,7 @@ main
 		val, @JsonValue
 		objVal, @JsonObject
 		propVal, @JsonValue
-		buf, a1024
+		buf, a65535
 		bufString, @String
 proc
 	open(2, O, "c:\wrk\log.txt")
@@ -31,8 +31,11 @@ proc
 	begin
 		reads(1, buf, EOFLABEL)
 		bufString += %atrim(buf)
+		clear buf
 		nextloop
-		EOFLABEL,
+EOFLABEL,
+		bufString += %atrim(buf)
+		clear buf
 		exitloop
 	end
 	close(1)
