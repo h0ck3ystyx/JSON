@@ -24,6 +24,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DebugOptimize>Debug</DebugOptimize>
     <DBLink_ReferenceCheck>True</DBLink_ReferenceCheck>
+    <TargetRuntimeLevel>10030300</TargetRuntimeLevel>
+    <LanguageCompatibilityLevel>10030300</LanguageCompatibilityLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>

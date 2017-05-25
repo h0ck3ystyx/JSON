@@ -14,7 +14,11 @@ main
 		propVal, @JsonValue
 		buf, a65535
 		bufString, @String
+		myString, @string
+		arrayObj, @JsonArray
+		departmentObj, @JsonObject
 proc
+	;sleep(5000)
 	open(2, O, "c:\wrk\log.txt")
 	bufString = ""
 	json = new Json()
@@ -25,7 +29,14 @@ proc
 	ASSERT_TYPE(propVal, TEXT, "property value of Hello was wrong type")
 	ASSERT_EQUALS(((JsonText)propVal).Value, "Thing", "property value was wrong")
 
-
+	val = json.ParseJson('{"Departments":[{"DeptId":2, "Description":"narf"}]}')
+	objVal = (JsonObject)val
+	propVal = objVal.GetProperty("Departments")    ;Throws index out of bounds exception here
+	arrayObj = (JsonArray)propVal
+	departmentObj = (JsonObject)arrayObj.arrayValues[0]
+	propVal = departmentObj.GetProperty("DeptId")
+	myString = %string(((JsonInt)propVal).Value)
+	ASSERT_EQUALS(((JsonText)departmentObj.GetProperty("Description")).Value, "narf", "property value was wrong")
 	open(1, I, "c:\wrk\test1.json")
 	do forever
 	begin
@@ -41,5 +52,7 @@ EOFLABEL,
 	close(1)
 	writes(2, %string(%cputime()))
 	val = json.ParseJson(bufString)
+	
+
 	writes(2, %string(%cputime()))
 endmain

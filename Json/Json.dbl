@@ -472,13 +472,15 @@ namespace Json
 						nop
 					123:
 					begin
+						data currentValueTemp = currentValue
 						jsonType = JSON_TYPE.OBJ
-						currentValue = MaybeAdd(currentProperty, currentValue, MaybePushResult(currentValue, parentValues, resultValue, new JsonObject()))
+						currentValue = MaybeAdd(currentProperty, currentValueTemp, MaybePushResult(currentValue, parentValues, resultValue, new JsonObject()))
 					end
 					91:
 					begin
+						data currentValueTemp = currentValue
 						jsonType = JSON_TYPE.ARRAY_VAL
-						currentValue = MaybeAdd(currentProperty, currentValue, MaybePushResult(currentValue, parentValues, resultValue, new JsonArray()))
+						currentValue = MaybeAdd(currentProperty, currentValueTemp, MaybePushResult(currentValue, parentValues, resultValue, new JsonArray()))
 					end
 					34: 
 						MaybeAdd(currentProperty, currentValue, TextValue(currentPos))
