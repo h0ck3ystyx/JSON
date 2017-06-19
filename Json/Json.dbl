@@ -361,7 +361,7 @@ namespace Json
 			value = Substring(startPos, currentPos, inputValue)
 			if(jsonType == JSON_TYPE.INT_VAL) then
 			begin
-				data numericValue, d28.10, ^d((a)value)
+				data numericValue, d28, ^d((a)value)
 				data negative, boolean, STRING_AT(inputValue, startPos) == '-'
 				data maxDigits, int;,  negative ? 20 : 19
 				data len, int, currentPos - startPos
